@@ -7,7 +7,8 @@ html {
   }
   body {
     background-image: url(${BGImage});
-    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     margin: 0;
     padding: 0 20px;
     display: flex;
