@@ -18,13 +18,12 @@ html {
     font-family: 'Catamaran', sans-serif;
     box-sizing: border-box;
   }
-
   `;
 
   export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;  
   
     > p {
         color: #fff;
@@ -34,11 +33,24 @@ html {
         font-size: 2rem;
         margin: 0;
     }
+    .input {
+      color: #000000;
+      font-size: 1.25rem;
+      margin: 0;
+      border-radius: 5px;
+      height: 40px;
+    }
+    .namelabel {
+      color: #000;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+  }
 
-    h1 {
-        font-family: Fascinate Inline;
+  h1 {
+        font-family: Catamaran;
         background-image: linear-gradient(180deg, #fff, #87f1ff);
-        font-weight: 400;
+        font-weight: 300;
         background-size: 100%;
         background-clip: text;
         -webkit-background-clip: text;
@@ -50,7 +62,7 @@ html {
         text-align: center;
         margin: 20px;
     }
-    .start, .next {
+      .start, .next {
         cursor: pointer;
         background: linear-gradient(180deg, #ffffff, #ffcc91);
         border: 2px solid #d38558;
@@ -59,8 +71,14 @@ html {
         height: 40px;
         margin: 20px 0;
         padding: 0 40px;
+        font-size: 1.2rem;
     }
     .start {
         max-width: 200px;
     }
+   
 `;
+
+
+
+
