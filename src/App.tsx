@@ -42,19 +42,25 @@ const App: React.FC = () => {
 
 
   const startTrivia = async () => {
-    let selectElementcategory = document.getElementById("category");
-    let temp = selectElementcategory?.innerText;
-    let indxcat = Categories.findIndex(e => e.label === temp);
+    // let selectElementcategory = document.getElementById("category");
+    // let temp = selectElementcategory?.innerText;
+    // let indxcat = Categories.findIndex(e => e.label === temp);
 
-    let selectElementdifficulty = document.getElementById("difficulty");
-    temp = selectElementdifficulty?.innerText;
-    let indxdif = Difficulty.findIndex(e => e.label === temp);
+    // let selectElementdifficulty = document.getElementById("difficulty");
+    // temp = selectElementdifficulty?.innerText;
+    // let indxdif = Difficulty.findIndex(e => e.label === temp);
+
+    let indxdif: number; 
+    indxdif = 0;
+
+    let indxcat: number; 
+    indxcat = 0;
 
     setloading(true);
     setGameOver(false);
     setScoreCard(false);
     setGameOn(true);
-    
+
     const newQuestions = await fetchQuizQuestions(
         TOTAL_QUESTION,
         Difficulty[indxdif].value,
