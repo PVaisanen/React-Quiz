@@ -10,7 +10,7 @@ html {
     background-attachment: fixed;
     background-position: center;
     margin: 0;
-    padding: 0 20px;
+    padding: 0 10px;
     display: flex;
     justify-content: center;
   }
@@ -34,6 +34,12 @@ html {
         font-size: 2rem;
         margin: 0;
     }
+    .sm_score {
+      color: #fff;
+      font-size: 1.5rem;
+      margin: 0;
+      text-shadow: 2px 2px #0085a3;
+  }
     .input {
       color: #000000;
       font-size: 1.25rem;
@@ -61,7 +67,7 @@ html {
         filter: drop-shadow(2px 2px #0085a3);
         font-size: 70px;
         text-align: center;
-        margin: 20px;
+        margin: 5px;
     }
       .start, .next {
         cursor: pointer;
@@ -70,7 +76,7 @@ html {
         box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
         border-radius: 10px;
         height: 40px;
-        margin: 20px 0;
+        margin: 10px 0;
         padding: 0 40px;
         font-size: 1.2rem;
     }

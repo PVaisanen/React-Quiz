@@ -40,6 +40,14 @@ const App: React.FC = () => {
       setPlayer(event.target.value);
   };
 
+  const changeCategory = (event: React.MouseEvent<HTMLSelectElement>) => {
+    //setPlayer(event.target.value);
+    console.log(event.target)
+    console.log("huhuu")
+
+};
+
+
 
   const startTrivia = async () => {
     // let selectElementcategory = document.getElementById("category");
@@ -130,12 +138,12 @@ const App: React.FC = () => {
       ): null}
 
       {!gameOn && gameOver ?(
-        <GameStart player={player} nameChange={nameChange} 
+        <GameStart player={player} nameChange={nameChange} changedCategory={changeCategory}
         startTrivia={startTrivia}> </GameStart> 
       ): null}  
-   
-      {gameOn && !gameOver ? <p className="score">Player: {player}</p> : null}
-      {gameOn && !gameOver ? <p className="score">Score: {score}</p> : null}
+    
+      {gameOn && !gameOver ? <label className="sm_score">Player: {player}</label> : null}
+      {gameOn && !gameOver ? <label className="sm_score">Score: {score}</label> : null}
 
       {loading && <p>Loading Question ...</p>}
       {gameOn && !gameOver && !loading && (

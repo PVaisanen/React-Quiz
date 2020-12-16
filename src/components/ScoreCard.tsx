@@ -10,12 +10,12 @@ type Props = {
 }
 
 const Level = [
-    { value: 0, label: 'Even if you guess, you get more.' },
-    { value: 2, label: 'You definitely need more exercise.' },
-    { value: 4, label: 'You are still a beginner.' },
-    { value: 6, label: 'You are clearly a generalist.' },
-    { value: 8, label: 'You are a genius.' },
-    { value: 10, label: 'You are walking on Wikipedia' },
+    { value: 0, label: "You didn't even have luck" },
+    { value: 2, label: "You definitely need more exercise." },
+    { value: 4, label: "You are still a beginner." },
+    { value: 6, label: "You are clearly a generalist." },
+    { value: 8, label: "You are a genius." },
+    { value: 10, label: "You are walking on Wikipedia" },
   ];
 
   function SkillLevel(score: number) { 

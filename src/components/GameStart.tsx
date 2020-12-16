@@ -9,6 +9,7 @@ type Props = {
     player: string;
     nameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     startTrivia: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    changedCategory: (e:React.MouseEvent<HTMLSelectElement>) => void;
 }
 
   
@@ -16,6 +17,7 @@ const GameStart: React.FC<Props> = ({
     player,
     nameChange,
     startTrivia,
+    changedCategory,
 }) => (
     <Wrapper>   
         <div>
@@ -25,7 +27,7 @@ const GameStart: React.FC<Props> = ({
         <p></p>
         <Select 
           id="category" classNamePrefix="select" defaultValue={Categories[0]}
-          name="category" options={Categories} 
+          name="category" options={Categories} onchange={changedCategory} 
         />
 
         <Select 
