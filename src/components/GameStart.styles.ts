@@ -11,6 +11,10 @@ export const Wrapper = styled.div`
   p {
     font-size: 1rem;
   }
+  select {
+    width: 100%;
+    margin: 5px 0;
+ 
 `;
 
 type ButtonWrapperProps = {
@@ -44,7 +48,9 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
   }
   .score {
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 0;
-} 
+}
+
+}
 `;

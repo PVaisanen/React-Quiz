@@ -1,7 +1,6 @@
 import React from 'react'
-import Select from 'react-select'
 // Styles
-import { Wrapper } from './ScoreCard.styles';
+import { Wrapper } from './GameStart.styles';
 import { Difficulty, Categories } from '../API';
 
 
@@ -9,7 +8,8 @@ type Props = {
     player: string;
     nameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     startTrivia: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    changedCategory: (e:React.MouseEvent<HTMLSelectElement>) => void;
+    changedCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    changedDifficulty : (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
   
@@ -18,6 +18,7 @@ const GameStart: React.FC<Props> = ({
     nameChange,
     startTrivia,
     changedCategory,
+    changedDifficulty,
 }) => (
     <Wrapper>   
         <div>
@@ -25,15 +26,34 @@ const GameStart: React.FC<Props> = ({
         </div>   
         <input className="input" onChange={nameChange} name="player" id="player" ></input>
         <p></p>
-        <Select 
+       
+          <div>
+            <select className="input"  onChange={changedCategory}>
+              <option value={Categories[0].value}>{Categories[0].label}</option>
+              <option value={Categories[1].value}>{Categories[1].label}</option>
+              <option value={Categories[2].value}>{Categories[2].label}</option>
+              <option value={Categories[3].value}>{Categories[3].label}</option>
+              <option value={Categories[4].value}>{Categories[4].label}</option>
+              <option value={Categories[5].value}>{Categories[5].label}</option>
+              <option value={Categories[6].value}>{Categories[6].label}</option>
+            </select>
+          </div>
+          <p/>
+          <div>
+            <select className="input" onChange={changedDifficulty}>
+              <option value={Difficulty[0].value}>{Difficulty[0].label}</option>
+              <option value={Difficulty[1].value}>{Difficulty[1].label}</option>
+              <option value={Difficulty[2].value}>{Difficulty[2].label}</option>
+            </select>
+          </div>
+         {/* <Select 
           id="category" classNamePrefix="select" defaultValue={Categories[0]}
           name="category" options={Categories} onchange={changedCategory} 
-        />
-
-        <Select 
+        /> */}
+        {/* <Select 
           id="difficulty" classNamePrefix="select" defaultValue={Difficulty[0]}
           name="difficulty" options={Difficulty} 
-        />
+        /> */}
 
         <button className="start" onClick={startTrivia} disabled={player.length === 0 ? true : false} >
           Start

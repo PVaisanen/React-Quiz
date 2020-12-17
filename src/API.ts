@@ -17,7 +17,7 @@ export const Difficulty = [
   { value: 'hard', label: 'Hard' }
 ]
 
-export const Categories = [
+export const Categories = [   
   { value: '0', label: 'Random categories' },
   { value: '9', label: 'General knowledge' },
   { value: '11', label: 'Movie' },

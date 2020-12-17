@@ -4,7 +4,7 @@ import { fetchQuizQuestions } from './API';
 // components
 import QuestionCard from './components/QuestionCard';
 // Types
-import { QuestionState, Difficulty, Categories } from './API';
+import { QuestionState, Difficulty } from './API';
 //import { setSourceMapRange } from 'typescript';
 // styles
 import { GlobalStyle, Wrapper } from './App.Styles';
@@ -34,35 +34,41 @@ const App: React.FC = () => {
   const [scoreCard, setScoreCard] = useState(false);
   const [gameOn, setGameOn] = useState(false);
   const [player, setPlayer] = React.useState("");
+  const [category,setCategory] = useState("0");
+  const [difficulty,setDifficulty] = useState(Difficulty[0].value);
+
+
 
 
   const nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setPlayer(event.target.value);
+    event.preventDefault();  
+    setPlayer(event.target.value);
   };
 
-  const changeCategory = (event: React.MouseEvent<HTMLSelectElement>) => {
-    //setPlayer(event.target.value);
-    console.log(event.target)
-    console.log("huhuu")
+  const changeCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const {value} = event.target;
+    setCategory(value)
+  };
 
-};
+  const changedDifficulty = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const {value} = event.target;
+    setDifficulty(value)
+  };
 
 
 
   const startTrivia = async () => {
-    // let selectElementcategory = document.getElementById("category");
-    // let temp = selectElementcategory?.innerText;
-    // let indxcat = Categories.findIndex(e => e.label === temp);
+    
+    console.log("cat: " + category)
+    console.log("dif: " + difficulty)
 
-    // let selectElementdifficulty = document.getElementById("difficulty");
-    // temp = selectElementdifficulty?.innerText;
-    // let indxdif = Difficulty.findIndex(e => e.label === temp);
+    let xTopic: string;
+    let xLevel: string;
 
-    let indxdif: number; 
-    indxdif = 0;
-
-    let indxcat: number; 
-    indxcat = 0;
+    xTopic = category;
+    xLevel = difficulty
 
     setloading(true);
     setGameOver(false);
@@ -71,8 +77,8 @@ const App: React.FC = () => {
 
     const newQuestions = await fetchQuizQuestions(
         TOTAL_QUESTION,
-        Difficulty[indxdif].value,
-        Categories[indxcat].value
+        xLevel,
+        xTopic
     );
     
     setQuestion(newQuestions);
@@ -138,7 +144,8 @@ const App: React.FC = () => {
       ): null}
 
       {!gameOn && gameOver ?(
-        <GameStart player={player} nameChange={nameChange} changedCategory={changeCategory}
+        <GameStart player={player} nameChange={nameChange} 
+        changedCategory={changeCategory} changedDifficulty={changedDifficulty}
         startTrivia={startTrivia}> </GameStart> 
       ): null}  
     
