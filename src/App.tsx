@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { fetchQuizQuestions } from './API';
 // components
@@ -11,6 +18,8 @@ import { GlobalStyle, Wrapper } from './App.Styles';
 
 import ScoreCard from './components/ScoreCard'
 import GameStart from './components/GameStart'
+import ScoreBoard from './components/ScoreBoard'
+
 
 
 export type AnswerObject  = {
@@ -36,7 +45,7 @@ const App: React.FC = () => {
   const [player, setPlayer] = React.useState("");
   const [category,setCategory] = useState("0");
   const [difficulty,setDifficulty] = useState(Difficulty[0].value);
-
+ // const [bestPlayerView,setBestPlayerView] = useState(false);
 
 
 
@@ -57,16 +66,9 @@ const App: React.FC = () => {
     setDifficulty(value)
   };
 
-
-
   const startTrivia = async () => {
-    
-    console.log("cat: " + category)
-    console.log("dif: " + difficulty)
-
     let xTopic: string;
     let xLevel: string;
-
     xTopic = category;
     xLevel = difficulty
 
@@ -134,46 +136,78 @@ const App: React.FC = () => {
   };
 
   return (
-    <>     
+    <>    
+
     <GlobalStyle />
-    <Wrapper>
-      <h1>QUIZ</h1>
-
-      {gameOn && scoreCard && gameOver ?( <ScoreCard player={player} score={score} 
-        callback={StartAgain}> </ScoreCard> 
-      ): null}
-
-      {!gameOn && gameOver ?(
-        <GameStart player={player} nameChange={nameChange} 
-        changedCategory={changeCategory} changedDifficulty={changedDifficulty}
-        startTrivia={startTrivia}> </GameStart> 
-      ): null}  
+    <Router>
     
-      {gameOn && !gameOver ? <label className="sm_score">Player: {player}</label> : null}
-      {gameOn && !gameOver ? <label className="sm_score">Score: {score}</label> : null}
+    <Wrapper>
 
-      {loading && <p>Loading Question ...</p>}
-      {gameOn && !gameOver && !loading && (
-        <QuestionCard 
-          questionNr={number+1}
-          totalQuestion={TOTAL_QUESTION}
-          question={questions[number].question}
-          answers={questions[number].answers}
-          userAnswer={userAnswers ? userAnswers[number] : undefined}
-          callback={checkAnswer}
-        />
-      )}
-      
-      {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTION -1 ? (
-        <button className="next" onClick={nextQuestion}>
-          Next Question
-        </button>
-      ) : null}
+      <Nav defaultActiveKey="/" as="ul">
+        <Nav.Item as="li">
+          <Nav.Link href="/">Play</Nav.Link>
+        </Nav.Item>
+        <Nav.Item as="li">
+          <Nav.Link href="/Scoreboard">Scoreboard</Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+    
     </Wrapper>
+    
+    <Wrapper>
+        <h1>QUIZ</h1>
+    </Wrapper>
+
+        <Switch>
+          <Route path="/ScoreBoard">
+            <ScoreBoard player={player} />
+          </Route>
+          <Route path="/">
+            <GameView />
+          </Route>
+        </Switch>
+     
+    </Router>
+       
     </>
   );
+
+function GameView(){
+  return (
+     <Wrapper>
+          {gameOn && scoreCard && gameOver ?( <ScoreCard player={player} score={score} 
+          callback={StartAgain}> </ScoreCard> 
+          ): null}
+          {!gameOn && gameOver ?(
+          <GameStart player={player} nameChange={nameChange} 
+          changedCategory={changeCategory} changedDifficulty={changedDifficulty}
+          startTrivia={startTrivia}> </GameStart> 
+          ): null}  
+    
+          {gameOn && !gameOver ? <label className="sm_score">Player: {player}</label> : null}
+          {gameOn && !gameOver ? <label className="sm_score">Score: {score}</label> : null}
+
+          {loading && <p>Loading Question ...</p>}
+          {gameOn && !gameOver && !loading && (
+          <QuestionCard 
+            questionNr={number+1}
+            totalQuestion={TOTAL_QUESTION}
+            question={questions[number].question}
+            answers={questions[number].answers}
+            userAnswer={userAnswers ? userAnswers[number] : undefined}
+            callback={checkAnswer}/>
+           )}
+      
+          {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTION -1 ? (
+          <button className="next" onClick={nextQuestion}>
+          Next Question
+          </button>
+          ) : null}
+      </Wrapper>
+    );
+}
+
 };
 
 export default App;
-
-

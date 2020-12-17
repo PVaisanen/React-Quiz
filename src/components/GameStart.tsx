@@ -10,7 +10,7 @@ type Props = {
     startTrivia: (e: React.MouseEvent<HTMLButtonElement>) => void;
     changedCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     changedDifficulty : (event: React.ChangeEvent<HTMLSelectElement>) => void;
-}
+} 
 
   
 const GameStart: React.FC<Props> = ({ 
@@ -46,15 +46,7 @@ const GameStart: React.FC<Props> = ({
               <option value={Difficulty[2].value}>{Difficulty[2].label}</option>
             </select>
           </div>
-         {/* <Select 
-          id="category" classNamePrefix="select" defaultValue={Categories[0]}
-          name="category" options={Categories} onchange={changedCategory} 
-        /> */}
-        {/* <Select 
-          id="difficulty" classNamePrefix="select" defaultValue={Difficulty[0]}
-          name="difficulty" options={Difficulty} 
-        /> */}
-
+ 
         <button className="start" onClick={startTrivia} disabled={player.length === 0 ? true : false} >
           Start
         </button>

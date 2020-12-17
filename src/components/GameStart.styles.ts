@@ -8,13 +8,13 @@ export const Wrapper = styled.div`
   padding: 5px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
-  p {
+  p { 
     font-size: 1rem;
   }
   select {
     width: 100%;
     margin: 5px 0;
- 
+  }
 `;
 
 type ButtonWrapperProps = {

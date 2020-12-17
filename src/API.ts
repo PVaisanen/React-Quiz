@@ -1,3 +1,4 @@
+import react, { Component } from 'react';
 import { shuffleArray } from './utils';
 
 export type Question = {
@@ -34,4 +35,6 @@ export const fetchQuizQuestions = async (amount: number, difficulty: string, cat
     ...question,
     answers: shuffleArray([...question.incorrect_answers, question.correct_answer])
   }))
+
+  
 };
