@@ -185,15 +185,15 @@ const App: React.FC = () => {
     </>
   );
 
-function GameView() {
+// function GameView() {
 
-  return (
-    <Wrapper>
-        <input className="input" onChange={nameChange} 
-          value={player} id="player" ></input>
-    </Wrapper>
-  );
-}
+//   return (
+//     <Wrapper>
+//         <input className="input" onChange={nameChange} 
+//           value={player} id="player" ></input>
+//     </Wrapper>
+//   );
+// }
 
 };
 
