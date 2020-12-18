@@ -14,11 +14,11 @@ type Props = {
 
   
 const GameStart: React.FC<Props> = ({ 
-    player,
-    nameChange,
-    startTrivia,
-    changedCategory,
-    changedDifficulty,
+      player,
+      nameChange,
+      startTrivia,
+      changedCategory,
+      changedDifficulty,
 }) => (
     <Wrapper>   
         <div>

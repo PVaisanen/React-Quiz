@@ -18,6 +18,7 @@ html {
   * {
     font-family: 'Catamaran', sans-serif;
     box-sizing: border-box;
+    style="font-size:1vw
   }
   `;
 
@@ -65,9 +66,9 @@ html {
         -moz-background-clip: text;
         -moz-text-fill-color: transparent;
         filter: drop-shadow(2px 2px #0085a3);
-        font-size: 70px;
+        font-size: 60px;
         text-align: center;
-        margin: 5px;
+        margin: 2px;
     }
       .start, .next {
         cursor: pointer;

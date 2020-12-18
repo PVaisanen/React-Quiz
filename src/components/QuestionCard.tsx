@@ -1,5 +1,6 @@
 import React from 'react'
 import { AnswerObject } from '../App';
+import ProgressBar from 'react-bootstrap/ProgressBar'
 // Styles
 import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
 
@@ -23,7 +24,9 @@ const QuestionCard: React.FC<Props> = ({
     <Wrapper>   
         <p className="number">
             Question: {questionNr} / {totalQuestion}
+            <ProgressBar animated now={questionNr*10} />
         </p>
+       
        <p dangerouslySetInnerHTML={{ __html: question }} />
        <div>    
            {answers.map((answer) => (

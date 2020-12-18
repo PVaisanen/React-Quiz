@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+  Switch, Route,} from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { fetchQuizQuestions } from './API';
+import { GlobalStyle, Wrapper } from './App.Styles';
+// Types
+import { fetchQuizQuestions, QuestionState, Difficulty } from './API';
 // components
 import QuestionCard from './components/QuestionCard';
-// Types
-import { QuestionState, Difficulty } from './API';
-//import { setSourceMapRange } from 'typescript';
-// styles
-import { GlobalStyle, Wrapper } from './App.Styles';
-
 import ScoreCard from './components/ScoreCard'
 import GameStart from './components/GameStart'
 import ScoreBoard from './components/ScoreBoard'
-
-
 
 export type AnswerObject  = {
   question: string;
@@ -28,7 +20,6 @@ export type AnswerObject  = {
   correct: boolean;
   correctAnswer: string;
 }
-
 
 const TOTAL_QUESTION = 10;
 
@@ -45,9 +36,6 @@ const App: React.FC = () => {
   const [player, setPlayer] = React.useState("");
   const [category,setCategory] = useState("0");
   const [difficulty,setDifficulty] = useState(Difficulty[0].value);
- // const [bestPlayerView,setBestPlayerView] = useState(false);
-
-
 
   const nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();  
@@ -137,75 +125,74 @@ const App: React.FC = () => {
 
   return (
     <>    
-
     <GlobalStyle />
     <Router>
-    
-    <Wrapper>
+      <Wrapper>
+        <Nav defaultActiveKey="/" as="ul">
+          <Nav.Item as="li">
+            <Nav.Link href="/">Play</Nav.Link>
+          </Nav.Item>
+          <Nav.Item as="li">
+            <Nav.Link href="/Scoreboard">Scoreboard</Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </Wrapper>
+      
+      <Wrapper>
+          <h1>QUIZ</h1>
+      </Wrapper>
+          <Switch>
+            <Route path="/ScoreBoard">
+              <ScoreBoard player={player} />
+            </Route>
+            <Route path="/">
+              
+              <Wrapper>
+                  {gameOn && scoreCard && gameOver ?( <ScoreCard player={player} score={score} 
+                  callback={StartAgain}> </ScoreCard> 
+                  ): null}
+                  {!gameOn && gameOver ?(
+                  <GameStart player={player} nameChange={nameChange} 
+                  changedCategory={changeCategory} changedDifficulty={changedDifficulty}
+                  startTrivia={startTrivia}> </GameStart> 
+                  ): null}  
+            
+                  {gameOn && !gameOver ? <label className="sm_score">Player: {player}</label> : null}
+                  {gameOn && !gameOver ? <label className="sm_score">Score: {score}</label> : null}
 
-      <Nav defaultActiveKey="/" as="ul">
-        <Nav.Item as="li">
-          <Nav.Link href="/">Play</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link href="/Scoreboard">Scoreboard</Nav.Link>
-        </Nav.Item>
-      </Nav>
+                  {loading && <p>Loading Question ...</p>}
+                  {gameOn && !gameOver && !loading && (
+                  <QuestionCard 
+                    questionNr={number+1}
+                    totalQuestion={TOTAL_QUESTION}
+                    question={questions[number].question}
+                    answers={questions[number].answers}
+                    userAnswer={userAnswers ? userAnswers[number] : undefined}
+                    callback={checkAnswer}/>
+                  )}
+              
+                  {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTION -1 ? (
+                  <button className="next" onClick={nextQuestion}>
+                  Next Question
+                  </button>
+                  ) : null}
+              </Wrapper>
 
-    
-    </Wrapper>
-    
-    <Wrapper>
-        <h1>QUIZ</h1>
-    </Wrapper>
-
-        <Switch>
-          <Route path="/ScoreBoard">
-            <ScoreBoard player={player} />
-          </Route>
-          <Route path="/">
-            <GameView />
-          </Route>
-        </Switch>
-     
+            </Route>
+          </Switch>
     </Router>
-       
+
     </>
   );
 
-function GameView(){
-  return (
-     <Wrapper>
-          {gameOn && scoreCard && gameOver ?( <ScoreCard player={player} score={score} 
-          callback={StartAgain}> </ScoreCard> 
-          ): null}
-          {!gameOn && gameOver ?(
-          <GameStart player={player} nameChange={nameChange} 
-          changedCategory={changeCategory} changedDifficulty={changedDifficulty}
-          startTrivia={startTrivia}> </GameStart> 
-          ): null}  
-    
-          {gameOn && !gameOver ? <label className="sm_score">Player: {player}</label> : null}
-          {gameOn && !gameOver ? <label className="sm_score">Score: {score}</label> : null}
+function GameView() {
 
-          {loading && <p>Loading Question ...</p>}
-          {gameOn && !gameOver && !loading && (
-          <QuestionCard 
-            questionNr={number+1}
-            totalQuestion={TOTAL_QUESTION}
-            question={questions[number].question}
-            answers={questions[number].answers}
-            userAnswer={userAnswers ? userAnswers[number] : undefined}
-            callback={checkAnswer}/>
-           )}
-      
-          {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTION -1 ? (
-          <button className="next" onClick={nextQuestion}>
-          Next Question
-          </button>
-          ) : null}
-      </Wrapper>
-    );
+  return (
+    <Wrapper>
+        <input className="input" onChange={nameChange} 
+          value={player} id="player" ></input>
+    </Wrapper>
+  );
 }
 
 };
