@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as dotenv from 'dotenv'
 import {
   BrowserRouter as Router,
   Switch, Route,} from 'react-router-dom';
@@ -7,12 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { GlobalStyle, Wrapper } from './App.Styles';
 // Types
-import { fetchQuizQuestions, QuestionState, Difficulty } from './API';
+import { fetchQuizQuestions, QuestionState, Difficulty } from './api/API';
 // components
 import QuestionCard from './components/QuestionCard';
 import ScoreCard from './components/ScoreCard'
 import GameStart from './components/GameStart'
 import ScoreBoard from './components/ScoreBoard'
+import { getResultFromRestApi, Player } from './api/VercelRestApi'
+
 
 export type AnswerObject  = {
   question: string;
@@ -24,6 +27,8 @@ export type AnswerObject  = {
 const TOTAL_QUESTION = 10;
 
 const App: React.FC = () => {
+  dotenv.config();
+
   const [loading,setloading] = useState(false);
   const [questions,setQuestion] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
@@ -37,20 +42,27 @@ const App: React.FC = () => {
   const [category,setCategory] = useState("0");
   const [difficulty,setDifficulty] = useState(Difficulty[0].value);
 
+  const [players,setPlayers] = useState<Player[]>([]);
+
+
   const nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();  
     setPlayer(event.target.value);
+    console.log("name: "+ event.target);
+
   };
 
   const changeCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const {value} = event.target;
+    console.log("category: "+ event.target);
     setCategory(value)
   };
 
   const changedDifficulty = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const {value} = event.target;
+    console.log(event.target);
     setDifficulty(value)
   };
 
@@ -58,7 +70,9 @@ const App: React.FC = () => {
     let xTopic: string;
     let xLevel: string;
     xTopic = category;
-    xLevel = difficulty
+    xLevel = difficulty;
+
+    console.log(players);
 
     setloading(true);
     setGameOver(false);
@@ -123,6 +137,22 @@ const App: React.FC = () => {
     setGameOver(true);
   };
 
+
+const getScoreboardData = async (category: string) => {
+  let tmpPlayers: Player[];
+  tmpPlayers = await getResultFromRestApi(category);
+  setPlayers(tmpPlayers);
+}
+
+const changeScoreboardCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  event.preventDefault();
+  const {value} = event.target;
+  getScoreboardData(value);
+};
+
+
+
+
   return (
     <>    
     <GlobalStyle />
@@ -143,7 +173,7 @@ const App: React.FC = () => {
       </Wrapper>
           <Switch>
             <Route path="/ScoreBoard">
-              <ScoreBoard player={player} />
+              <ScoreBoard player={player} players={players} changeScoreboardCategory={changeScoreboardCategory}  />
             </Route>
             <Route path="/">
               
@@ -184,16 +214,6 @@ const App: React.FC = () => {
 
     </>
   );
-
-// function GameView() {
-
-//   return (
-//     <Wrapper>
-//         <input className="input" onChange={nameChange} 
-//           value={player} id="player" ></input>
-//     </Wrapper>
-//   );
-// }
 
 };
 

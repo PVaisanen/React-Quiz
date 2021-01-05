@@ -17,16 +17,19 @@ const QuestionCard: React.FC<Props> = ({
     question, 
     answers,
     callback,
-    userAnswer,
+    userAnswer, 
     questionNr,
     totalQuestion,
 }) => (
     <Wrapper>   
+        <div>   
+            <ProgressBar animated now={questionNr*10} /> 
+        </div>
+
         <p className="number">
             Question: {questionNr} / {totalQuestion}
-            <ProgressBar animated now={questionNr*10} />
         </p>
-       
+     
        <p dangerouslySetInnerHTML={{ __html: question }} />
        <div>    
            {answers.map((answer) => (
