@@ -14,7 +14,7 @@ import QuestionCard from './components/QuestionCard';
 import ScoreCard from './components/ScoreCard'
 import GameStart from './components/GameStart'
 import ScoreBoard from './components/ScoreBoard'
-import { getResultFromRestApi, Player } from './api/VercelRestApi'
+import { getResultFromRestApi, postResultToRestApi, Player } from './api/VercelRestApi'
 
 
 export type AnswerObject  = {
@@ -41,21 +41,16 @@ const App: React.FC = () => {
   const [player, setPlayer] = React.useState("");
   const [category,setCategory] = useState("0");
   const [difficulty,setDifficulty] = useState(Difficulty[0].value);
-
   const [players,setPlayers] = useState<Player[]>([]);
-
 
   const nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();  
     setPlayer(event.target.value);
-    console.log("name: "+ event.target);
-
   };
 
   const changeCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const {value} = event.target;
-    console.log("category: "+ event.target);
     setCategory(value)
   };
 
@@ -71,8 +66,6 @@ const App: React.FC = () => {
     let xLevel: string;
     xTopic = category;
     xLevel = difficulty;
-
-    console.log(players);
 
     setloading(true);
     setGameOver(false);
@@ -115,11 +108,10 @@ const App: React.FC = () => {
       setScoreCard(true);
       setGameOn(true);
       setGameOver(true);
-      console.log("checkAnswer");
+      SaveResultScoreboard();
     }
-
   };
-  
+
   const nextQuestion = () => {
     // move on to the next 
     const nextQuestion = number + 1;
@@ -137,21 +129,19 @@ const App: React.FC = () => {
     setGameOver(true);
   };
 
+  const SaveResultScoreboard = async () => {
+    if (score > 0){
+      let res = await postResultToRestApi(player,category,difficulty,score);
+      console.log(res);
+    }
+  }
 
-const getScoreboardData = async (category: string) => {
+const getScoreboardData = async () => {
   let tmpPlayers: Player[];
-  tmpPlayers = await getResultFromRestApi(category);
+  console.log(difficulty);
+  tmpPlayers = await getResultFromRestApi(category, difficulty);
   setPlayers(tmpPlayers);
 }
-
-const changeScoreboardCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  event.preventDefault();
-  const {value} = event.target;
-  getScoreboardData(value);
-};
-
-
-
 
   return (
     <>    
@@ -173,7 +163,10 @@ const changeScoreboardCategory = (event: React.ChangeEvent<HTMLSelectElement>) =
       </Wrapper>
           <Switch>
             <Route path="/ScoreBoard">
-              <ScoreBoard player={player} players={players} changeScoreboardCategory={changeScoreboardCategory}  />
+            <Wrapper>
+              <ScoreBoard player={player} players={players} changeScoreboardCategory={changeCategory} 
+              changedScoreboardDifficulty={changedDifficulty} updatedResult={getScoreboardData}  />
+              </Wrapper>
             </Route>
             <Route path="/">
               

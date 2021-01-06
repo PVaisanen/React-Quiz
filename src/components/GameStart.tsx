@@ -1,6 +1,7 @@
 import React from 'react'
 // Styles
 import { Wrapper } from './GameStart.styles';
+// component
 import { Difficulty, Categories } from '../api/API';
 
 
@@ -36,25 +37,19 @@ const GameStart: React.FC<Props> = ({
               <option value={Categories[4].value}>{Categories[4].label}</option>
               <option value={Categories[5].value}>{Categories[5].label}</option>
               <option value={Categories[6].value}>{Categories[6].label}</option>
-               {/* {Categories.map(topic => 
-              <option key={topic.value}>{topic.label}</option>)} */}
+             
             </select>
           </div>
           <p/>
-          <div>
-            <select className="input" onChange={changedDifficulty}>
-              <option value={Difficulty[0].value}>{Difficulty[0].label}</option>
-              <option value={Difficulty[1].value}>{Difficulty[1].label}</option>
-              <option value={Difficulty[2].value}>{Difficulty[2].label}</option>
-            </select>
-          </div>
+            <div>
+              <select className="input" onChange={changedDifficulty}>
+                <option value={Difficulty[0].value}>{Difficulty[0].label}</option>
+                <option value={Difficulty[1].value}>{Difficulty[1].label}</option>
+                <option value={Difficulty[2].value}>{Difficulty[2].label}</option>
+              </select>
+            </div>
 
-          {/* <div>
-            <select className="input" onChange={changedDifficulty}>
-            {Difficulty.map(level => 
-              <option key={level.value}>{level.label}</option>)}
-            </select>
-          </div> */}
+       
 
           <button className="start" onClick={startTrivia} disabled={player.length === 0 ? true : false} >
             Start
