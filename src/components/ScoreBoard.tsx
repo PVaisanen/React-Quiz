@@ -12,7 +12,7 @@ import DataTable from "react-data-table-component";
 type Props = {
     player: string; 
     players: Player[];
-    changeScoreboardCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    changedScoreboardCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     changedScoreboardDifficulty : (event: React.ChangeEvent<HTMLSelectElement>) => void;
     updatedResult: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -29,11 +29,6 @@ const columns = [
     sortable: false,
   },
   {
-    name: "Level",
-    selector: "difficulty",
-    sortable: false,
-  },
-  {
     name: "Date",
     selector: "displayDate",
     sortable: false,
@@ -44,14 +39,14 @@ const columns = [
 const ScoreBoard: React.FC<Props> = ({ 
     player, 
     players,
-    changeScoreboardCategory,
+    changedScoreboardCategory,
     changedScoreboardDifficulty,
     updatedResult,
 
 }) => (
     <Wrapper>   
         <div>
-            <select className="input"  onChange={changedScoreboardDifficulty}>
+            <select className="input"  onChange={changedScoreboardCategory}>
               <option value={Categories[0].value}>{Categories[0].label}</option>
               <option value={Categories[1].value}>{Categories[1].label}</option>
               <option value={Categories[2].value}>{Categories[2].label}</option>
@@ -79,7 +74,7 @@ const ScoreBoard: React.FC<Props> = ({
        <p className="namelabel">
           <Table striped bordered hover size="sm">
             <DataTable
-                title="All the time top 8"
+                title="All the time top 8" 
                 columns={columns}
                 data={players}
                 defaultSortField="title"

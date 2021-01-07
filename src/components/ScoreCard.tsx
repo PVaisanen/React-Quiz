@@ -32,8 +32,10 @@ const Level = [
         str = Level[3].label;
     }else if (score <= 8){
         str = Level[4].label;
+    }else if (score <= 10){
+        str = Level[5].label;
     }else{
-        str = "auts";
+        str = "auts!";
     }
 
     return str;

@@ -14,7 +14,8 @@ import QuestionCard from './components/QuestionCard';
 import ScoreCard from './components/ScoreCard'
 import GameStart from './components/GameStart'
 import ScoreBoard from './components/ScoreBoard'
-import { getResultFromRestApi, postResultToRestApi, Player } from './api/VercelRestApi'
+import { getResultFromRestApi, postResultToRestApi, 
+  updateVisitorCounterRestApi, Player } from './api/VercelRestApi'
 
 
 export type AnswerObject  = {
@@ -42,6 +43,8 @@ const App: React.FC = () => {
   const [category,setCategory] = useState("0");
   const [difficulty,setDifficulty] = useState(Difficulty[0].value);
   const [players,setPlayers] = useState<Player[]>([]);
+  const [counter, setCounter] = useState(0);
+
 
   const nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();  
@@ -108,7 +111,7 @@ const App: React.FC = () => {
       setScoreCard(true);
       setGameOn(true);
       setGameOver(true);
-      SaveResultScoreboard();
+      saveResultScoreboard();
     }
   };
 
@@ -129,20 +132,37 @@ const App: React.FC = () => {
     setGameOver(true);
   };
 
-  const SaveResultScoreboard = async () => {
+  const saveResultScoreboard = async () => {
     if (score > 0){
+      console.log(score);
       let res = await postResultToRestApi(player,category,difficulty,score);
       console.log(res);
     }
   }
 
-const getScoreboardData = async () => {
+const getScoreboardData = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.preventDefault();  
+ 
   let tmpPlayers: Player[];
-  console.log(difficulty);
   tmpPlayers = await getResultFromRestApi(category, difficulty);
   setPlayers(tmpPlayers);
 }
 
+const getVisitorCounter = async () => {
+    //Init scoreboard
+    let tmpPlayers: Player[];
+    tmpPlayers = await getResultFromRestApi("0","easy");
+    setPlayers(tmpPlayers);
+    // add counter and get result
+    let count: number = await updateVisitorCounterRestApi(counter);
+    setCounter(count);
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  getVisitorCounter();
+  // Set visitors counter +1 and get result
+  console.log("loaded");
+});
   return (
     <>    
     <GlobalStyle />
@@ -164,7 +184,7 @@ const getScoreboardData = async () => {
           <Switch>
             <Route path="/ScoreBoard">
             <Wrapper>
-              <ScoreBoard player={player} players={players} changeScoreboardCategory={changeCategory} 
+              <ScoreBoard player={player} players={players} changedScoreboardCategory={changeCategory} 
               changedScoreboardDifficulty={changedDifficulty} updatedResult={getScoreboardData}  />
               </Wrapper>
             </Route>
@@ -204,7 +224,10 @@ const getScoreboardData = async () => {
             </Route>
           </Switch>
     </Router>
-
+    <p></p> 
+      <Wrapper>
+         {!gameOn && gameOver ? <label className="counterlabel">Visits on this page: {counter} </label> : null}
+      </Wrapper>
     </>
   );
 

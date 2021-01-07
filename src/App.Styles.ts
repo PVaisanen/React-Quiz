@@ -53,6 +53,12 @@ html {
       font-size: 1.5rem;
       margin: 0;
     }
+    .counterlabel {
+      color: #FFF;
+      font-size: 1rem;
+      margin: 0;
+      text-shadow: 1.5px 1.5px #0085a3;
+    }
   }
 
   h1 {
